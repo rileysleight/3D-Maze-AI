@@ -7,6 +7,10 @@ public class PlayerMove : MonoBehaviour
 {
     private Rigidbody rb;
     public float movementSpeed = 5.0f;
+    public float turnSpeed = 1.0f;
+
+    private float horizontal;
+
     // Start is called before the first frame update
     void Start()
     {   
@@ -15,24 +19,26 @@ public class PlayerMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {   
         Vector3 Velocity = rb.velocity;
         if(Input.GetKey("left"))
         {
             Vector3 eulerAngles = transform.rotation.eulerAngles;
-            eulerAngles.y = eulerAngles.y + -0.5f; 
+            eulerAngles.y = eulerAngles.y - turnSpeed; 
             transform.rotation = Quaternion.Euler(eulerAngles);
         }
         if(Input.GetKey("right"))
         {
             Vector3 eulerAngles = transform.rotation.eulerAngles;
-            eulerAngles.y = eulerAngles.y + 0.5f; 
+            eulerAngles.y = eulerAngles.y + turnSpeed; 
             transform.rotation = Quaternion.Euler(eulerAngles);
         }
         if(Input.GetKey("up"))
         {
             transform.position += transform.forward * Time.deltaTime * movementSpeed;
+            //horizontal = Input.GetAxis("Horizontal");
+            //rb.velocity = (transform.forward * horizontal) * movementSpeed * Time.fixedDeltaTime;
         }
         if(Input.GetKey("down"))
         {
@@ -44,6 +50,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
+            print("EnemyTrigger");
             SceneManager.LoadScene(1);
         }
     }
